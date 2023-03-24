@@ -49,7 +49,7 @@ The response will be a JSON object with the following structure:
 
     This endpoint add a new report to the database. The report must be passed as a JSON object in the request body.
 
-> Usage example: `$ curl -X POST http://localhost:8000/api/reports -H "Content-Type: application/json" -d '"description": "Rainning!","location": {"city": "brasilia", "state": "DF", "country": "BR"}'`
+> Usage example: `$ curl -X POST http://localhost:8000/api/reports -H "Content-Type: application/json" -d '{ "description": "Rainning!", "location": {"city": "brasilia", "state": "DF", "country": "BR"}}'`
 
 The response will be a JSON object with the following structure:
 ```json
