@@ -1,4 +1,5 @@
 import uvicorn
+import asyncio
 import json
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
@@ -6,7 +7,9 @@ from pathlib import Path
 from api import weather_api
 from views import home
 from utils import variables
-
+from model.report import ReportSubmittal
+from model.location import Location
+from services import report_service
 
 api = FastAPI()
 
@@ -17,6 +20,7 @@ def configure():
     """
     configure_routing()
     configure_api_keys()
+    configure_fake_data()
 
 
 def configure_routing():
@@ -40,6 +44,24 @@ def configure_api_keys():
             variables.endpoint = settings.get("endpoint")
     else:
         raise FileNotFoundError("settings.json file not found.")
+
+
+def configure_fake_data():
+    """
+    Configure fake data for the application.
+    """
+
+    loc = Location(city="Brasília", state="DF", country="BR")
+    asyncio.create_task(
+        report_service.add_report(
+            ReportSubmittal(description="It is raining!", location=loc)
+        )
+    )
+    asyncio.create_task(
+        report_service.add_report(
+            ReportSubmittal(description="It is sunny!", location=loc)
+        )
+    )
 
 
 if __name__ == "__main__":
